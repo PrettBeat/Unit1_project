@@ -1,6 +1,8 @@
 var lugia = (function(){
   return {
     map: {},
+    ghosts:["images/duskull.png","images/gastly.png","images/gengar.png","images/haunter.png","images/shuppet.png"],
+    enemySpawns:["0%","0%","95%","95%","0%","85%","0%","85%"],
     reset: function(){
       console.log("resetting for Lugia's Mansion");
       $('#game-content').empty().css('background-image', 'url("images/Mansion.jpg")');
@@ -13,6 +15,21 @@ var lugia = (function(){
       var $gustw = $('<img>').attr('src', 'images/animated-tornado-w.gif').addClass('gust').attr('id','w');
       var $gustd = $('<img>').attr('src', 'images/animated-tornado-d.gif').addClass('gust').attr('id','d');
       var $gusts = $('<img>').attr('src', 'images/animated-tornado-s.gif').addClass('gust').attr('id','s');
+      var level = 1;
+      var count = 0;
+      var gametime = setInterval(function(){
+        console.log("ghost made");
+        var spawn = Math.floor(Math.random()*4);
+        var ghostType=Math.floor(Math.random()*5);
+        let ghost=$('<img>').attr('src',lugia.ghosts[ghostType]).addClass('ghost').attr('id',`ghost${count}`).css('left',lugia.enemySpawns[spawn]).css('top',lugia.enemySpawns[4+spawn]);
+        $('#game-content').append(ghost);
+        if (count === 4){
+          level +=1;
+          count=0;
+          clearInterval(gametime);
+        }
+        count+=1;
+      },5000/level);
       $('body').on('keydown',
         function(event){
           let keys = [37,38,39,40,65,68,83,87]

@@ -42,3 +42,8 @@ body{
   top:50%;
   left:42.5%;
 }
+
+.ghost{
+  width: 5%;
+  position: absolute;
+}
