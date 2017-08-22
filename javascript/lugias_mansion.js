@@ -1,8 +1,10 @@
 var lugia = (function(){
   return {
     map: {},
-    ghosts:["images/duskull.png","images/gastly.png","images/gengar.png","images/haunter.png","images/shuppet.png"],
-    enemySpawns:["0%","0%","95%","95%","0%","85%","0%","85%"],
+    ghostTypes:["images/duskull.png","images/gastly.png","images/gengar.png","images/haunter.png","images/shuppet.png"],
+    enemySpawns:["0%","0%","95%","95%","0%","90%","0%","90%"],
+    level:1,
+    ghosts:[],
     reset: function(){
       console.log("resetting for Lugia's Mansion");
       $('#game-content').empty().css('background-image', 'url("images/Mansion.jpg")');
@@ -15,21 +17,33 @@ var lugia = (function(){
       var $gustw = $('<img>').attr('src', 'images/animated-tornado-w.gif').addClass('gust').attr('id','w');
       var $gustd = $('<img>').attr('src', 'images/animated-tornado-d.gif').addClass('gust').attr('id','d');
       var $gusts = $('<img>').attr('src', 'images/animated-tornado-s.gif').addClass('gust').attr('id','s');
-      var level = 1;
       var count = 0;
       var gametime = setInterval(function(){
         console.log("ghost made");
+        lugia.ghosts.forEach(function(spirit){
+          var thing = $(`#${spirit}`);
+          console.log(thing);
+          // let difference1 = thing.css('left') - $('.lugia').css('left');
+          // let new1 = parseFloat((thing.css('left')).slice(0,-2)) + difference1*(lugia.level/10);
+          // $(`#${spirit}`).css('left', `${new1}`);
+          // let difference2 = thing.css('top') - $('.lugia').css('top');
+          // console.log(parseFloat((thing.css('top')).slice(0,-2)));
+          //
+          // let new2 = parseFloat(((thing.css('top')).slice(0,-2))) + difference2*(lugia.level/10);
+          // $(`#${spirit}`).css('top', `${new2}`);
+        });
         var spawn = Math.floor(Math.random()*4);
         var ghostType=Math.floor(Math.random()*5);
-        let ghost=$('<img>').attr('src',lugia.ghosts[ghostType]).addClass('ghost').attr('id',`ghost${count}`).css('left',lugia.enemySpawns[spawn]).css('top',lugia.enemySpawns[4+spawn]);
+        let ghost=$('<img>').attr('src',lugia.ghostTypes[ghostType]).addClass('ghost').attr('id',`ghost${count}`).css('left',lugia.enemySpawns[spawn]).css('top',lugia.enemySpawns[4+spawn]);
+        lugia.ghosts.push(ghost.attr('id'));
         $('#game-content').append(ghost);
         if (count === 4){
-          level +=1;
+          lugia.level +=1;
           count=0;
           clearInterval(gametime);
         }
         count+=1;
-      },5000/level);
+      },5000/lugia.level);
       $('body').on('keydown',
         function(event){
           let keys = [37,38,39,40,65,68,83,87]
@@ -82,10 +96,8 @@ var lugia = (function(){
     var current = parseInt(($('#lugia').css(side)).slice(0,-2));
     if(typeof(sideconvert)=="undefined"&&side ==="left"){
       sideconvert = current/42.5;
-      console.log(sideconvert);
     }else if(typeof(topconvert)=="undefined"&&side==="top"){
       topconvert = current/42.5;
-      console.log(topconvert);
     }
     var changed = current + (20*direction);
     var sideCheck = side === "left" && changed <= 87*sideconvert && changed >= 0;
@@ -93,14 +105,11 @@ var lugia = (function(){
     if(sideCheck||topCheck){
       $('#lugia').css(side, `${changed}px`);
       if(side==="left"){
-        console.log('moving to the side')
-        console.log(changed -(7.5*sideconvert));
         $('#a').css(side,`${changed -(7.5*sideconvert)}px`);
         $('#d').css(side,`${changed +(7.5*sideconvert)}px`);
         $('#s').css(side,`${changed}px`);
         $('#w').css(side,`${changed}px`);
       }else if(side==="top"){
-        console.log('moving up and down')
         $('#w').css(side,`${changed -(7.5*topconvert)}px`);
         $('#s').css(side,`${changed +(7.5*topconvert)}px`);
         $('#a').css(side,`${changed}px`);
