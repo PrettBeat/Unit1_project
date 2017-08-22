@@ -1,0 +1,44 @@
+body{
+  text-align: center;
+}
+
+#game-content{
+  height: 75vh;
+  background: #909090;
+  position: relative;
+}
+
+.lugia {
+  position: absolute;
+  top: 42.5%;
+  left: 42.5%;
+}
+
+.gust {
+  display:none;
+  position:absolute;
+}
+
+.active {
+  display:block;
+}
+
+#a{
+  top: 42.5%;
+  left: 35%;
+}
+
+#w{
+  top: 35%;
+  left: 42.5%;
+}
+
+#d{
+  top:42.5%;
+  left:50%;
+}
+
+#s{
+  top:50%;
+  left:42.5%;
+}
