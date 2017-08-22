@@ -3,7 +3,7 @@ var lugia = (function(){
     map: {},
     reset: function(){
       console.log("resetting for Lugia's Mansion");
-      $('#game-content').empty();
+      $('#game-content').empty().css('background-image', 'url("images/Mansion.jpg")');
       $('#game-content').append($('<button>').addClass('start').on('click',function(){lugia.start();}));
     },
     start: function(){
@@ -84,8 +84,8 @@ var lugia = (function(){
         $('#w').css(side,`${changed}px`);
       }else if(side==="top"){
         console.log('moving up and down')
-        $('#w').css(side,`${changed -(7.5*sideconvert)}px`);
-        $('#s').css(side,`${changed +(7.5*sideconvert)}px`);
+        $('#w').css(side,`${changed -(7.5*topconvert)}px`);
+        $('#s').css(side,`${changed +(7.5*topconvert)}px`);
         $('#a').css(side,`${changed}px`);
         $('#d').css(side,`${changed}px`);
       }
