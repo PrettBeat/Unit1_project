@@ -12,34 +12,37 @@ body{
   position: absolute;
   top: 42.5%;
   left: 42.5%;
+  width:10%;
 }
 
 .gust {
-  display:none;
   position:absolute;
+  width:10%;
+  opacity: 0;
 }
 
 .active {
   display:block;
+  opacity:1;
 }
 
 #a{
   top: 42.5%;
-  left: 35%;
+  left: 32.5%;
 }
 
 #w{
-  top: 35%;
+  top: 27.5%;
   left: 42.5%;
 }
 
 #d{
   top:42.5%;
-  left:50%;
+  left:52.5%;
 }
 
 #s{
-  top:50%;
+  top:57.5%;
   left:42.5%;
 }
 
