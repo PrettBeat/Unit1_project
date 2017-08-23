@@ -3,7 +3,7 @@ var lugia = (function(){
     map: {},
     ghostTypes:["images/duskull.png","images/gastly.png","images/gengar.png","images/haunter.png","images/shuppet.png"],
     enemySpawns:["0%","0%","95%","95%","0%","90%","0%","90%"],
-    level:1,
+    level:5,
     ghosts:[],
     reset: function(){
       console.log("resetting for Lugia's Mansion");
@@ -29,14 +29,16 @@ var lugia = (function(){
           let new2 = thing.position().top - difference2*(lugia.level/10);
           $(`#${spirit}`).css({'left':`${new1}px`, 'top':`${new2}px`});
         });
-        var spawn = Math.floor(Math.random()*4);
-        var ghostType=Math.floor(Math.random()*5);
-        let ghost=$('<img>').attr('src',lugia.ghostTypes[ghostType]).addClass('ghost').attr('id',`ghost${count}`).css('left',lugia.enemySpawns[spawn]).css('top',lugia.enemySpawns[4+spawn]);
-        lugia.ghosts.push(ghost.attr('id'));
-        $('#game-content').append(ghost);
-        if (count === 4){
+        if(lugia.ghosts.length <10){
+          var spawn = Math.floor(Math.random()*4);
+          var ghostType=Math.floor(Math.random()*5);
+          let ghost=$('<img>').attr('src',lugia.ghostTypes[ghostType]).addClass('ghost').attr('id',`ghost${count}`).css('left',lugia.enemySpawns[spawn]).css('top',lugia.enemySpawns[4+spawn]);
+          lugia.ghosts.push(ghost.attr('id'));
+          $('#game-content').append(ghost);
+          count +=1;
+        }
+        if (count === 0 && lugia.ghosts.length === 10){
           lugia.level +=1;
-          count=0;
           clearInterval(gametime);
         }
         count+=1;
@@ -52,25 +54,25 @@ var lugia = (function(){
             let clock = setInterval(function(){
               move("left",-1,"w");
               clearInterval(clock);
-          },1);
+          },34);
           }
           if(lugia.map[38]==true){
             let clock = setInterval(function(){
               move("top",-1,"h");
               clearInterval(clock);
-          },1);
+          },34);
           }
           if(lugia.map[39]==true){
             let clock = setInterval(function(){
               move("left",1,"w");
               clearInterval(clock);
-          },1);
+          },34);
           }
           if(lugia.map[40]==true){
             let clock = setInterval(function(){
               move("top",1,"h");
               clearInterval(clock);
-            },1);
+            },34);
           }
           if(lugia.map[65]==true){
             $gusta.addClass('active');
