@@ -22,15 +22,12 @@ var lugia = (function(){
         console.log("ghost made");
         lugia.ghosts.forEach(function(spirit){
           var thing = $(`#${spirit}`);
-          console.log(thing);
-          // let difference1 = thing.css('left') - $('.lugia').css('left');
-          // let new1 = parseFloat((thing.css('left')).slice(0,-2)) + difference1*(lugia.level/10);
-          // $(`#${spirit}`).css('left', `${new1}`);
-          // let difference2 = thing.css('top') - $('.lugia').css('top');
-          // console.log(parseFloat((thing.css('top')).slice(0,-2)));
-          //
-          // let new2 = parseFloat(((thing.css('top')).slice(0,-2))) + difference2*(lugia.level/10);
-          // $(`#${spirit}`).css('top', `${new2}`);
+          let difference1 = thing.position().left - $('.lugia').position().left;
+          let new1 = thing.position().left - difference1*(lugia.level/10);
+          $(`#${spirit}`).css('left', `${new1}`);
+          let difference2 = thing.position().top - $('.lugia').position().top;
+          let new2 = thing.position().top - difference2*(lugia.level/10);
+          $(`#${spirit}`).css({'left':`${new1}px`, 'top':`${new2}px`});
         });
         var spawn = Math.floor(Math.random()*4);
         var ghostType=Math.floor(Math.random()*5);
