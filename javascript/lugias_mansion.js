@@ -3,14 +3,14 @@ var lugia = (function(){
     map: {},
     ghostTypes:["images/duskull.png","images/gastly.png","images/gengar.png","images/haunter.png","images/shuppet.png"],
     enemySpawns:["0%","0%","95%","95%","0%","90%","0%","90%"],
-    level:1,
     ghosts:[],
     defeat:0,
     victory:0,
     reset: function(){
       console.log("resetting for Lugia's Mansion");
       $('#game-content').empty().css('background-image', 'url("images/Mansion.jpg")');
-      $('#game-content').append($('<button>').addClass('start').on('click',function(){lugia.start();}));
+      $('#instructions').text("Welcome to luigi...er... I mean Lugia's Mansion. Lugia has won a contest that he didn't even know he entered. He is now the proud owner of a new Mansion. The only problem is...IT'S HAUNTED! Avoid the ghost (pokémon) with the arrow keys, and attack them with WASD keys. Tip: you can use multiple keys, and you can hold your attack out for ever. Consider approaching with your attack at the ready. Good Luck!")
+      $('#game-content').append($('<button>').addClass('start').on('click',function(){lugia.start();}).text('Start'));
     },
     start: function(){
       $('.start').remove();
@@ -38,15 +38,17 @@ var lugia = (function(){
             var gustwCheck= distanceW<75&&$('.active')[0].attributes.id.nodeValue === "w";
             var gustdCheck= distanceD<75&&$('.active')[0].attributes.id.nodeValue === "d";
             var gustsCheck= distanceS<75&&$('.active')[0].attributes.id.nodeValue === "s";
-            var deathCheck= death<50;
+            var deathCheck= death<75;
             if (gustsCheck||gustaCheck||gustwCheck||gustdCheck){
               $(`#${ghoul}`).remove();
               count-=1;
               console.log(count);
             }
+            
             if(deathCheck){
               clearInterval(whatIsDeadCanStillDie);
               lugia.defeat+=1;
+              console.log(lugia.defeat);
             }
             if(count===0&&lugia.ghosts.length===10){
               clearInterval(whatIsDeadCanStillDie);
@@ -61,10 +63,10 @@ var lugia = (function(){
           var target = $('.lugia').position();
           if(typeof(domain)!= "undefined"){
             let difference1 = domain.left - target.left;
-            let new1 = domain.left - difference1*(lugia.level/10);
+            let new1 = domain.left - difference1*(1/5);
             $(`#${spirit}`).css('left', `${new1}`);
             let difference2 = domain.top - target.top;
-            let new2 = domain.top - difference2*(lugia.level/10);
+            let new2 = domain.top - difference2*(1/5);
             $(`#${spirit}`).hide().css({'left':`${new1}px`, 'top':`${new2}px`}).fadeIn(500/lugia.level);
           }
         });
@@ -76,19 +78,16 @@ var lugia = (function(){
           $('#game-content').append(ghost);
           count +=1;
         }
-        if(lugia.defeat===1){
+        console.log(lugia.defeat);
+        if(lugia.defeat!==0){
           clearInterval(gametime);
           gameOver("YOU LOSE...");
-          $('<button>').text("Restart?").addClass('start').on('click',function(){lugia.start()}).css('top','42.5%').css('left','42.5%');
         }
         if (count === 0 && lugia.ghosts.length === 10){
-          lugia.level +=1;
-          lugia.victory+=1;
           clearInterval(gametime);
           gameOver("YOU WIN!");
-          $('<button>').text("Next Level?").addClass('start').on('click',function(){lugia.start;lugia.level+=1;}).css('top','42.5%').css('left','42.5%');
         }
-      },5000/lugia.level);
+      },3500);
       $('body').on('keydown',
         function(event){
           let keys = [37,38,39,40,65,68,83,87]
@@ -166,7 +165,14 @@ var lugia = (function(){
   }
   function gameOver(texts){
     console.log(texts);
-    $('#game-content').empty().append($('<h1>').text(texts));
+    $('#game-content').empty().append($('<h1>').text(texts))
+    .append($('<button>').text("Play Again?").addClass('start').on('click',function(){
+      $('#game-content').empty();
+      lugia.ghosts=[];
+      lugia.victory=0;
+      lugia.defeat=0;
+      lugia.start();
+    }).css('top','42.5%').css('left','42.5%'));
   }
   function distance(x,y,a,b){
     return Math.sqrt(Math.pow(Math.abs(x-y),2)+Math.pow(Math.abs(a-b),2));

@@ -7,6 +7,7 @@ var home = (function(){
         $list = $('<div>').addClass('col-xs-12 gamechoice').attr('game', games[index]).text(choice).on('click', function(){games[index].reset();});
         $('#game-content').append($list);
       });
+      $('#instructions').text('Choose your game, and then click on it.');
     }
   };
 })();

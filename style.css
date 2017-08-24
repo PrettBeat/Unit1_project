@@ -2,10 +2,12 @@ body{
   text-align: center;
 }
 
+
 #game-content{
   height: 75vh;
   background: #909090;
   position: relative;
+  color: #ffffff;
 }
 
 .lugia {
@@ -54,4 +56,8 @@ body{
 #ghost0{
   top:0;
   left:0;
+}
+
+button{
+  color: #000000;
 }
