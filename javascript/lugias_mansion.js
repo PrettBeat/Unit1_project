@@ -4,12 +4,13 @@ var lugia = (function(){
     ghostTypes:["images/duskull.png","images/gastly.png","images/gengar.png","images/haunter.png","images/shuppet.png"],
     enemySpawns:["0%","0%","95%","95%","0%","90%","0%","90%"],
     ghosts:[],
+    score:0,
     defeat:0,
     victory:0,
     reset: function(){
       console.log("resetting for Lugia's Mansion");
       $('#game-content').empty().css('background-image', 'url("images/Mansion.jpg")');
-      $('#instructions').text("Welcome to luigi...er... I mean Lugia's Mansion. Lugia has won a contest that he didn't even know he entered. He is now the proud owner of a new Mansion. The only problem is...IT'S HAUNTED! Avoid the ghost (pokémon) with the arrow keys, and attack them with WASD keys. Tips: you can use multiple keys, but only one attack can work at a time. You can hold your attack out forever, so consider approaching with your attack at the ready. Good Luck!");
+      $('#instructions').text("Welcome to luigi...er... I mean Lugia's Mansion. Lugia has won a contest that he didn't even know he entered. He is now the proud owner of a new Mansion. The only problem is...IT'S HAUNTED! Avoid the ghost (pokémon) with the arrow keys, and attack them with WASD keys. Tips: you can use multiple keys, but only one attack can work at a time. You can hold your attack out forever, so consider approaching with your attack at the ready. Your score keeps going until you lose, so feel free to play again. Good Luck!");
       $('#game-content').append($('<button>').addClass('start').on('click',function(){lugia.start();}).text('Start'));
     },
     start: function(){
@@ -34,15 +35,16 @@ var lugia = (function(){
             var distanceD= distance(attackD.left,grave.left,attackD.top,grave.top);
             var distanceS= distance(attackS.left,grave.left,attackS.top,grave.top);
             var death= distance(target.left,grave.left,target.top,grave.top);
-            var gustaCheck= distanceA<75&&$('.active')[1].attributes.id.nodeValue === "a";
-            var gustwCheck= distanceW<75&&$('.active')[1].attributes.id.nodeValue === "w";
-            var gustdCheck= distanceD<75&&$('.active')[1].attributes.id.nodeValue === "d";
-            var gustsCheck= distanceS<75&&$('.active')[1].attributes.id.nodeValue === "s";
+            var gustaCheck= distanceA<75&&$('#a').hasClass('active');
+            var gustwCheck= distanceW<75&&$('#w').hasClass('active');
+            var gustdCheck= distanceD<75&&$('#d').hasClass('active');
+            var gustsCheck= distanceS<75&&$('#s').hasClass('active');
             var deathCheck= death<75;
             if (gustsCheck||gustaCheck||gustwCheck||gustdCheck){
               $(`#${ghoul}`).remove();
               count-=1;
-              console.log(count);
+              lugia.score+=1;
+              $('#score').text(`Score: ${lugia.score}`);
             }
 
             if(deathCheck){
@@ -78,10 +80,10 @@ var lugia = (function(){
           $('#game-content').append(ghost);
           count +=1;
         }
-        console.log(lugia.defeat);
         if(lugia.defeat!==0){
           clearInterval(gametime);
           gameOver("YOU LOSE...");
+          lugia.score=0;
         }
         if (count === 0 && lugia.ghosts.length === 10){
           clearInterval(gametime);
@@ -133,7 +135,7 @@ var lugia = (function(){
         lugia.map[event.keyCode] = event.type=='keydown';
         $('.gust').removeClass('active');
       });
-      $('#game-content').append($lugia).append($gusta).append($gusts).append($gustd).append($gustw);
+      $('#game-content').append($lugia).append($gusta).append($gusts).append($gustd).append($gustw).append($('<h3>').text(`Score: ${lugia.score}`).attr('id','score'));
     }
   };
   function move(side, direction, letter){
@@ -146,7 +148,7 @@ var lugia = (function(){
       }
       var changed = current + (20*direction);
       var sideCheck = side === "left" && changed <= 90*sideconvert && changed >= 0;
-      var topCheck = side === "top" && changed <= 83*topconvert && changed >= 0;
+      var topCheck = side === "top" && changed <= 88*topconvert && changed >= 0;
       if(sideCheck||topCheck){
         $('#lugia').css(side, `${changed}px`);
         if(side==="left"){

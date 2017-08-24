@@ -31,6 +31,24 @@ span{
   background: #909090;
   position: relative;
   color: #ffffff;
+  background-size: cover;
+}
+
+.peekaboo{
+  position:absolute;
+  top:40%;
+  left:40%;
+  background: white;
+}
+
+.gamechoice {
+  margin: 3em 0;
+}
+
+.start{
+  position: absolute;
+  top: 45%;
+  left: 45%;
 }
 
 .lugia {
