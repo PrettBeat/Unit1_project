@@ -9,8 +9,9 @@ var lugia = (function(){
     victory:0,
     reset: function(){
       console.log("resetting for Lugia's Mansion");
+      this.score = 0;
       $('#game-content').empty().css('background-image', 'url("images/Mansion.jpg")');
-      $('#instructions').text("Welcome to luigi...er... I mean Lugia's Mansion. Lugia has won a contest that he didn't even know he entered. He is now the proud owner of a new Mansion. The only problem is...IT'S HAUNTED! Avoid the ghost (pokémon) with the arrow keys, and attack them with WASD keys. Tips: you can use multiple keys, but only one attack can work at a time. You can hold your attack out forever, so consider approaching with your attack at the ready. Your score keeps going until you lose, so feel free to play again. Good Luck!");
+      $('#instructions').text("Welcome to luigi...er... I mean Lugia's Mansion. Lugia has won a contest that he didn't even know he entered. He is now the proud owner of a new Mansion. The only problem is...IT'S HAUNTED! Avoid the ghost (pokémon) with the arrow keys, and attack them with WASD keys. Tips: you can use multiple keys, but only one attack can work at a time. You can hold your attack out forever, so consider approaching with your attack at the ready. Your score keeps going until you lose, and it gets harder every ten points, so feel free to play again. Good Luck!");
       $('#game-content').append($('<button>').addClass('start').on('click',function(){lugia.start();}).text('Start'));
     },
     start: function(){
@@ -21,6 +22,7 @@ var lugia = (function(){
       var $gustd = $('<img>').attr('src', 'images/animated-tornado-d.gif').addClass('gust').attr('id','d');
       var $gusts = $('<img>').attr('src', 'images/animated-tornado-s.gif').addClass('gust').attr('id','s');
       var count = 0;
+      var level = Math.floor(this.score/10)+1;
       var whatIsDeadCanStillDie=setInterval(function(){
         lugia.ghosts.forEach(function(ghoul){
           var grave = $(`#${ghoul}`).position();
@@ -65,10 +67,10 @@ var lugia = (function(){
           var target = $('.lugia').position();
           if(typeof(domain)!= "undefined"){
             let difference1 = domain.left - target.left;
-            let new1 = domain.left - difference1*(1/5);
+            let new1 = domain.left - difference1*(level/10);
             $(`#${spirit}`).css('left', `${new1}`);
             let difference2 = domain.top - target.top;
-            let new2 = domain.top - difference2*(1/5);
+            let new2 = domain.top - difference2*(level/10);
             $(`#${spirit}`).hide().css({'left':`${new1}px`, 'top':`${new2}px`}).fadeIn(500);
           }
         });
@@ -89,7 +91,7 @@ var lugia = (function(){
           clearInterval(gametime);
           gameOver("YOU WIN!");
         }
-      },3500);
+      },(5000/level));
       $('body').on('keydown',
         function(event){
           let keys = [37,38,39,40,65,68,83,87]
