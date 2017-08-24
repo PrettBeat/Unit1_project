@@ -1,7 +1,30 @@
-body{
-  text-align: center;
+@font-face {
+    font-family: "My Custom Font";
+    src: url(fonts/PocketMonk.otf) format("opentype");
 }
 
+body{
+  text-align: center;
+  font-family: 'Press Start 2P', cursive;
+  background: rgb(47,110,181);
+  color: rgb(255,203,55);
+}
+
+h1, span{
+  font-family: "My Custom Font";
+}
+
+h1{
+  font-size: 5em;
+}
+
+span{
+  font-size: 2em;
+}
+
+.regular{
+  color: #000000;
+}
 
 #game-content{
   height: 75vh;
