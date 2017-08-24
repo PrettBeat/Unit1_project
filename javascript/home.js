@@ -1,6 +1,6 @@
 var home = (function(){
   return{
-    choices: ["Lugia's Mansion", "Peek at You WIP"],
+    choices: ["Lugia's Mansion", "Pika Boo WIP"],
     reset: function(){
       $('#game-content').empty().css('background-image','');
       this.choices.forEach(function(choice, index){
