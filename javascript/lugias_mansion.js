@@ -8,6 +8,7 @@ var lugia = (function(){
     defeat:0,
     victory:0,
     reset: function(){
+      // prepares game window for lugia's mansion
       console.log("resetting for Lugia's Mansion");
       this.score = 0;
       $('#game-content').empty().css('background-image', 'url("images/Mansion.jpg")');
@@ -15,6 +16,7 @@ var lugia = (function(){
       $('#game-content').append($('<button>').addClass('start').on('click',function(){lugia.start();}).text('Start'));
     },
     start: function(){
+      // removes start button, and attaches lugia and the attack images to the screen
       $('.start').remove();
       var $lugia = $('<img>').attr('src', 'images/lugia.gif').addClass('lugia').attr('id','lugia');
       var $gusta = $('<img>').attr('src', 'images/animated-tornado-a.gif').addClass('gust').attr('id','a');
@@ -25,6 +27,7 @@ var lugia = (function(){
       var level = Math.floor(this.score/10)+1;
       var whatIsDeadCanStillDie=setInterval(function(){
         lugia.ghosts.forEach(function(ghoul){
+          // registers the current position of lugia, the attacks, and the ghosts
           var grave = $(`#${ghoul}`).position();
           var target = $('.lugia').position();
           var attackA = $('#a').position();
@@ -32,6 +35,7 @@ var lugia = (function(){
           var attackD = $('#d').position();
           var attackS = $('#s').position();
           if(typeof(grave)!=="undefined"){
+            //calculates the distance between objects to verify if any two have collided
             var distanceA= distance(attackA.left,grave.left,attackA.top,grave.top);
             var distanceW= distance(attackW.left,grave.left,attackW.top,grave.top);
             var distanceD= distance(attackD.left,grave.left,attackD.top,grave.top);
@@ -43,6 +47,7 @@ var lugia = (function(){
             var gustsCheck= distanceS<75&&$('#s').hasClass('active');
             var deathCheck= death<75;
             if (gustsCheck||gustaCheck||gustwCheck||gustdCheck){
+              // if the ghost hits an attack while it's active, it is destroyed, and adds a point
               $(`#${ghoul}`).remove();
               count-=1;
               lugia.score+=1;
@@ -50,11 +55,12 @@ var lugia = (function(){
             }
 
             if(deathCheck){
+              // if a ghost hits lugia, you lose.
               clearInterval(whatIsDeadCanStillDie);
               lugia.defeat+=1;
-              console.log(lugia.defeat);
             }
             if(count===0&&lugia.ghosts.length===10){
+              // stops the interval when victory requirements are met.
               clearInterval(whatIsDeadCanStillDie);
             }
           }
@@ -63,6 +69,7 @@ var lugia = (function(){
       var gametime = setInterval(function(){
         console.log("ghost made");
         lugia.ghosts.forEach(function(spirit){
+          // moves each ghost that is available a percentage of the distance to lugia based on the level
           var domain = $(`#${spirit}`).position();
           var target = $('.lugia').position();
           if(typeof(domain)!= "undefined"){
@@ -75,6 +82,7 @@ var lugia = (function(){
           }
         });
         if(lugia.ghosts.length <10){
+          // creates, and generates the spawn point of the ghost.
           var spawn = Math.floor(Math.random()*4);
           var ghostType=Math.floor(Math.random()*5);
           let ghost=$('<img>').attr('src',lugia.ghostTypes[ghostType]).addClass('ghost').attr('id',`ghost${count}`).css('left',lugia.enemySpawns[spawn]).css('top',lugia.enemySpawns[4+spawn]);
@@ -83,11 +91,13 @@ var lugia = (function(){
           count +=1;
         }
         if(lugia.defeat!==0){
+          // ends game if lugia is touched, and resets the score.
           clearInterval(gametime);
           gameOver("YOU LOSE...");
           lugia.score=0;
         }
         if (count === 0 && lugia.ghosts.length === 10){
+          // ends game, but maintains score to increase the level on the next try.
           clearInterval(gametime);
           lugia.victory+=1;
           gameOver("YOU WIN!");
@@ -95,11 +105,14 @@ var lugia = (function(){
       },(5000/level));
       $('body').on('keydown',
         function(event){
+          // checks if the key down is one of the relevant keys to the game.
           let keys = [37,38,39,40,65,68,83,87]
           if (keys.includes(event.keyCode)){
             event.preventDefault();
           }
+          // pushes a key value pair to the map property of lugia, that reads true when the key is held down.
           lugia.map[event.keyCode]= (event.type=='keydown');
+          // continuously fires a basic movement function in the direction the key/keys signify
           if(lugia.map[37]==true){
             let clock = setInterval(function(){
               move("left",-1,"w");
@@ -124,6 +137,7 @@ var lugia = (function(){
               clearInterval(clock);
             },34);
           }
+          // attacks appear in the direction associated with the key, so long as the key is held.
           if(lugia.map[65]==true){
             $gusta.addClass('active');
           }else if(lugia.map[68]==true){
@@ -135,6 +149,7 @@ var lugia = (function(){
           }
 
       }).on('keyup',function(event){
+        // changes the value of the keys in map when the key is lifted.
         lugia.map[event.keyCode] = event.type=='keydown';
         $('.gust').removeClass('active');
       });
@@ -142,17 +157,21 @@ var lugia = (function(){
     }
   };
   function move(side, direction, letter){
+    // verifies the game hasn't ended.
     if(lugia.victory===0&&lugia.defeat===0){
+      // finds lugia's current position and creates converters for distance on the first key press.
       var current = parseInt(($('#lugia').css(side)).slice(0,-2));
       if(typeof(sideconvert)=="undefined"&&side ==="left"){
         sideconvert = current/42.5;
       }else if(typeof(topconvert)=="undefined"&&side==="top"){
         topconvert = current/42.5;
       }
+      // sets new position for lugia, and verifies that that new position is in the game window.
       var changed = current + (20*direction);
       var sideCheck = side === "left" && changed <= 90*sideconvert && changed >= 0;
       var topCheck = side === "top" && changed <= 88*topconvert && changed >= 0;
       if(sideCheck||topCheck){
+        // moves the attacks accordingly, so they are still in line with lugia.
         $('#lugia').css(side, `${changed}px`);
         if(side==="left"){
           $('#a').css(side,`${changed -(7.5*sideconvert)}px`);
@@ -170,6 +189,7 @@ var lugia = (function(){
   }
   function gameOver(texts){
     console.log(texts);
+    // empties the game contents, and presents the results.
     $('#game-content').empty().append($('<h1>').text(texts))
     .append($('<button>').text("Play Again?").addClass('start').on('click',function(){
       $('#game-content').empty();
@@ -180,6 +200,7 @@ var lugia = (function(){
     }).css('top','42.5%').css('left','42.5%'));
   }
   function distance(x,y,a,b){
+    // calculates the distance between images.
     return Math.sqrt(Math.pow(Math.abs(x-y),2)+Math.pow(Math.abs(a-b),2));
   }
 })();
