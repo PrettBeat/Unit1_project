@@ -7,7 +7,7 @@ body{
   text-align: center;
   font-family: 'Press Start 2P', cursive;
   background: rgb(47,110,181);
-  color: rgb(255,203,55);
+  color: #ffffff
 }
 
 h1, span{
@@ -18,8 +18,13 @@ h1{
   font-size: 5em;
 }
 
+#header{
+  color: rgb(255,203,55);
+}
+
 span{
   font-size: 2em;
+  color: rgb(255,203,55);
 }
 
 .regular{
