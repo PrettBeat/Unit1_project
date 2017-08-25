@@ -170,8 +170,6 @@ var lugia = (function(){
   }
   function gameOver(texts){
     console.log(texts);
-    console.log(lugia.victory);
-    console.log(lugia.defeat);
     $('#game-content').empty().append($('<h1>').text(texts))
     .append($('<button>').text("Play Again?").addClass('start').on('click',function(){
       $('#game-content').empty();
