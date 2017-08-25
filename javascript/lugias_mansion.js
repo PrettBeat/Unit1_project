@@ -89,6 +89,7 @@ var lugia = (function(){
         }
         if (count === 0 && lugia.ghosts.length === 10){
           clearInterval(gametime);
+          lugia.victory+=1;
           gameOver("YOU WIN!");
         }
       },(5000/level));
@@ -169,6 +170,8 @@ var lugia = (function(){
   }
   function gameOver(texts){
     console.log(texts);
+    console.log(lugia.victory);
+    console.log(lugia.defeat);
     $('#game-content').empty().append($('<h1>').text(texts))
     .append($('<button>').text("Play Again?").addClass('start').on('click',function(){
       $('#game-content').empty();
