@@ -26,7 +26,7 @@ the game I chose to use characters from was Pokémon. The gameplay is derivative
 ### Rules:
 Kill the ghosts, and don't get killed yourself. The level increases every ten ghosts.
 
-### How to Web-ify Luigi's Mansion
+### How to Web-ify Luigi's Mansion:
 Take out the exploration element of luigi's mansion, and focus on the ghost hunting. The main issue was filtering the gameplay elements into a simpler medium. Other than that, it was just a lot of trial and error to get the best possible results.
 
 ### Trello Link:
