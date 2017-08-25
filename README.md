@@ -4,6 +4,10 @@
 ### Technologies used:
 Bootstrap, jquery, google fonts, html, css, and javascript.
 
+### Wireframe:
+
+![Wireframe.png](https://github.com/PrettBeat/Unit1_project/blob/master/Wireframe.png "Wireframe")
+
 ### Process/Approach:
 Began by deciding to split js functionality among different files, using the techniques Syed taught us. From there I wired up everything about the home page and the main.js that I needed for my first game to work. Then I got to work on building the logic for the first game, lugia's mansion. I made the user character's functionality my first concern. I added keydown listeners, and then googled how to use multiple keys at once. Then I designed the enemy creation function. After that was enemy movement. Finally, I designed the collision detection. After that I styled everything, and provided a work in progress page for the other game, since I wouldn't have time to finish it. Finally, I refactored the code to adjust the difficulty via a score tracker, and readjusted the logic for collision to insure that errors weren't thrown to the console when an enemy interacted with an inactive attack.
 
