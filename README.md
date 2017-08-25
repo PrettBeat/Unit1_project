@@ -31,3 +31,6 @@ Take out the exploration element of luigi's mansion, and focus on the ghost hunt
 
 ### Trello Link:
 https://trello.com/b/bRrBtQPE/pok%C3%A9mon-plagiarism
+
+### Game Link:
+[game](https://prettbeat.github.io/Unit1_project/)
